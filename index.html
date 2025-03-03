@@ -70,6 +70,7 @@
         <input type="text" id="estatus" name="estatus" value="Por hacer" readonly>
       </div>
       <button type="submit">Agregar Tarea</button>
+      <button type="button" id="limpiar_campos">Limpiar campos</button>
     </form>
   </div>
 
@@ -118,6 +119,12 @@
         callback();
       }
     }
+    document.getElementById("limpiar_campos").addEventListener("click", function(event) {
+      limpiarCampos(function() {
+        console.log("Los campos se han limpiado correctamente.");
+      });
+    });
+    
     document.getElementById("formTarea").addEventListener("submit", function(event) {
       event.preventDefault();
 
