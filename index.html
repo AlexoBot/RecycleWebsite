@@ -29,14 +29,11 @@
   </style>
 </head>
 <body>
-
-  <!-- Sección para mostrar el usuario registrado -->
   <div class="usuario-registrado">
     <label>Usuario Registrado: </label>
     <span id="usuario">Admin</span>
   </div>
 
-  <!-- Formulario para registrar una nueva tarea -->
   <div class="registro-tarea">
     <h2>Registrar Nueva Tarea</h2>
     <form id="formTarea">
@@ -76,7 +73,6 @@
     </form>
   </div>
 
-  <!-- Sección para mostrar las tareas registradas -->
   <div class="tabla-tareas">
     <h2>Tareas Registradas</h2>
     <table id="tablaTareas">
@@ -93,13 +89,12 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Las tareas se agregarán aquí -->
+
       </tbody>
     </table>
   </div>
 
   <script>
-    // Proceso de login con prompt
     let usuario = "Admin";
     let pass = "1234";
     let prompt_User;
@@ -109,11 +104,7 @@
       prompt_User = prompt("¿Cuál es el usuario?");
       prompt_Pass = prompt("¿Cuál es la contraseña?");
     } while (prompt_User !== usuario || prompt_Pass !== pass);
-    
-    // Actualiza el nombre del usuario en la sección correspondiente
     document.getElementById("usuario").textContent = usuario;
-
-    // Función para limpiar los campos del formulario utilizando un callback
     function limpiarCampos(callback) {
       document.getElementById("tareaID").value = "";
       document.getElementById("titulo").value = "";
@@ -122,19 +113,14 @@
       document.getElementById("cliente").value = "";
       document.getElementById("idProyecto").value = "";
       document.getElementById("comentarios").value = "";
-      // El campo estatus es readonly y se mantiene en "Por hacer"
-      
-      // Ejecuta el callback si se ha proporcionado
+
       if (callback && typeof callback === "function") {
         callback();
       }
     }
-
-    // Evento de envío del formulario para registrar la tarea
     document.getElementById("formTarea").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      // Recoge y valida los datos de los campos
       let tareaID = document.getElementById("tareaID").value.trim();
       let titulo = document.getElementById("titulo").value.trim();
       let descripcion = document.getElementById("descripcion").value.trim();
@@ -144,13 +130,11 @@
       let comentarios = document.getElementById("comentarios").value.trim();
       let estatus = document.getElementById("estatus").value;
 
-      // Validación básica de que los campos obligatorios no estén vacíos
       if (!tareaID || !titulo || !descripcion || !fechaInicio || !cliente || !idProyecto) {
         alert("Por favor, complete todos los campos obligatorios.");
         return;
       }
 
-      // Crea un objeto con la información de la tarea
       let tarea = {
         ID: tareaID,
         Titulo: titulo,
@@ -162,7 +146,6 @@
         Estatus: estatus
       };
 
-      // Agrega la tarea a la tabla HTML
       let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
       let row = tablaBody.insertRow();
       row.insertCell().textContent = tarea.ID;
@@ -174,7 +157,6 @@
       row.insertCell().textContent = tarea.Comentarios;
       row.insertCell().textContent = tarea.Estatus;
 
-      // Limpia los campos del formulario usando la función callback
       limpiarCampos(function() {
         console.log("Los campos se han limpiado correctamente.");
       });
