@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Tareas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .usuario-registrado {
+      margin-bottom: 20px;
+    }
+    form div {
+      margin-bottom: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sección para mostrar el usuario registrado -->
+  <div class="usuario-registrado">
+    <label>Usuario Registrado: </label>
+    <span id="usuario">Admin</span>
+  </div>
+
+  <!-- Formulario para registrar una nueva tarea -->
+  <div class="registro-tarea">
+    <h2>Registrar Nueva Tarea</h2>
+    <form id="formTarea">
+      <div>
+        <label for="tareaID">Código de la Tarea (ID):</label>
+        <input type="text" id="tareaID" name="tareaID" required>
+      </div>
+      <div>
+        <label for="titulo">Título de la Tarea:</label>
+        <input type="text" id="titulo" name="titulo" required>
+      </div>
+      <div>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required></textarea>
+      </div>
+      <div>
+        <label for="fechaInicio">Fecha de Inicio:</label>
+        <input type="date" id="fechaInicio" name="fechaInicio" required>
+      </div>
+      <div>
+        <label for="cliente">Nombre del Cliente:</label>
+        <input type="text" id="cliente" name="cliente" required>
+      </div>
+      <div>
+        <label for="idProyecto">ID del Proyecto:</label>
+        <input type="text" id="idProyecto" name="idProyecto" required>
+      </div>
+      <div>
+        <label for="comentarios">Comentarios:</label>
+        <textarea id="comentarios" name="comentarios"></textarea>
+      </div>
+      <div>
+        <label for="estatus">Estatus:</label>
+        <input type="text" id="estatus" name="estatus" value="Por hacer" readonly>
+      </div>
+      <button type="submit">Agregar Tarea</button>
+    </form>
+  </div>
+
+  <!-- Sección para mostrar las tareas registradas -->
+  <div class="tabla-tareas">
+    <h2>Tareas Registradas</h2>
+    <table id="tablaTareas">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Descripción</th>
+          <th>Fecha de Inicio</th>
+          <th>Cliente</th>
+          <th>ID Proyecto</th>
+          <th>Comentarios</th>
+          <th>Estatus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Las tareas se agregarán aquí -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Proceso de login con prompt
+    let usuario = "Admin";
+    let pass = "1234";
+    let prompt_User;
+    let prompt_Pass;
+    
+    do {
+      prompt_User = prompt("¿Cuál es el usuario?");
+      prompt_Pass = prompt("¿Cuál es la contraseña?");
+    } while (prompt_User !== usuario || prompt_Pass !== pass);
+    
+    // Actualiza el nombre del usuario en la sección correspondiente
+    document.getElementById("usuario").textContent = usuario;
+
+    // Función para limpiar los campos del formulario utilizando un callback
+    function limpiarCampos(callback) {
+      document.getElementById("tareaID").value = "";
+      document.getElementById("titulo").value = "";
+      document.getElementById("descripcion").value = "";
+      document.getElementById("fechaInicio").value = "";
+      document.getElementById("cliente").value = "";
+      document.getElementById("idProyecto").value = "";
+      document.getElementById("comentarios").value = "";
+      // El campo estatus es readonly y se mantiene en "Por hacer"
+      
+      // Ejecuta el callback si se ha proporcionado
+      if (callback && typeof callback === "function") {
+        callback();
+      }
+    }
+
+    // Evento de envío del formulario para registrar la tarea
+    document.getElementById("formTarea").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Recoge y valida los datos de los campos
+      let tareaID = document.getElementById("tareaID").value.trim();
+      let titulo = document.getElementById("titulo").value.trim();
+      let descripcion = document.getElementById("descripcion").value.trim();
+      let fechaInicio = document.getElementById("fechaInicio").value;
+      let cliente = document.getElementById("cliente").value.trim();
+      let idProyecto = document.getElementById("idProyecto").value.trim();
+      let comentarios = document.getElementById("comentarios").value.trim();
+      let estatus = document.getElementById("estatus").value;
+
+      // Validación básica de que los campos obligatorios no estén vacíos
+      if (!tareaID || !titulo || !descripcion || !fechaInicio || !cliente || !idProyecto) {
+        alert("Por favor, complete todos los campos obligatorios.");
+        return;
+      }
+
+      // Crea un objeto con la información de la tarea
+      let tarea = {
+        ID: tareaID,
+        Titulo: titulo,
+        Descripcion: descripcion,
+        FechaInicio: fechaInicio,
+        Cliente: cliente,
+        ID_Proyecto: idProyecto,
+        Comentarios: comentarios,
+        Estatus: estatus
+      };
+
+      // Agrega la tarea a la tabla HTML
+      let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
+      let row = tablaBody.insertRow();
+      row.insertCell().textContent = tarea.ID;
+      row.insertCell().textContent = tarea.Titulo;
+      row.insertCell().textContent = tarea.Descripcion;
+      row.insertCell().textContent = tarea.FechaInicio;
+      row.insertCell().textContent = tarea.Cliente;
+      row.insertCell().textContent = tarea.ID_Proyecto;
+      row.insertCell().textContent = tarea.Comentarios;
+      row.insertCell().textContent = tarea.Estatus;
+
+      // Limpia los campos del formulario usando la función callback
+      limpiarCampos(function() {
+        console.log("Los campos se han limpiado correctamente.");
+      });
+    });
+  </script>
+</body>
+</html>
