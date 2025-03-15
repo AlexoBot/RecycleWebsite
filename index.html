@@ -3,171 +3,294 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de Tareas</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    .usuario-registrado {
-      margin-bottom: 20px;
-    }
-    form div {
-      margin-bottom: 10px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 8px;
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="usuario-registrado">
-    <label>Usuario Registrado: </label>
-    <span id="usuario">Admin</span>
-  </div>
+  <div class="container">
+    <div class="usuario-registrado">
+      <label>Usuario Registrado: </label>
+      <span id="usuario">Admin</span>
+    </div>
 
-  <div class="registro-tarea">
-    <h2>Registrar Nueva Tarea</h2>
-    <form id="formTarea">
-      <div>
-        <label for="tareaID">Código de la Tarea (ID):</label>
-        <input type="text" id="tareaID" name="tareaID" required>
-      </div>
-      <div>
-        <label for="titulo">Título de la Tarea:</label>
-        <input type="text" id="titulo" name="titulo" required>
-      </div>
-      <div>
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
-      </div>
-      <div>
-        <label for="fechaInicio">Fecha de Inicio:</label>
-        <input type="date" id="fechaInicio" name="fechaInicio" required>
-      </div>
-      <div>
-        <label for="cliente">Nombre del Cliente:</label>
-        <input type="text" id="cliente" name="cliente" required>
-      </div>
-      <div>
-        <label for="idProyecto">ID del Proyecto:</label>
-        <input type="text" id="idProyecto" name="idProyecto" required>
-      </div>
-      <div>
-        <label for="comentarios">Comentarios:</label>
-        <textarea id="comentarios" name="comentarios"></textarea>
-      </div>
-      <div>
-        <label for="estatus">Estatus:</label>
-        <input type="text" id="estatus" name="estatus" value="Por hacer" readonly>
-      </div>
-      <button type="submit">Agregar Tarea</button>
-      <button type="button" id="limpiar_campos">Limpiar campos</button>
-    </form>
-  </div>
+    <div class="registro-tarea">
+      <h2>Registrar Nueva Tarea</h2>
+      <form id="formTarea">
+        <div>
+          <label for="tareaID">Código de la Tarea (ID):</label>
+          <input type="text" id="tareaID" name="tareaID" required>
+        </div>
+        <div>
+          <label for="titulo">Título de la Tarea:</label>
+          <input type="text" id="titulo" name="titulo" required>
+        </div>
+        <div>
+          <label for="descripcion">Descripción:</label>
+          <textarea id="descripcion" name="descripcion" required></textarea>
+        </div>
+        <div>
+          <label for="fechaInicio">Fecha de Inicio:</label>
+          <input type="date" id="fechaInicio" name="fechaInicio" required>
+        </div>
+        <div>
+          <label for="cliente">Nombre del Cliente:</label>
+          <input type="text" id="cliente" name="cliente" required>
+        </div>
+        <div>
+          <label for="idProyecto">ID del Proyecto:</label>
+          <input type="text" id="idProyecto" name="idProyecto" required>
+        </div>
+        <div>
+          <label for="comentarios">Comentarios:</label>
+          <textarea id="comentarios" name="comentarios"></textarea>
+        </div>
+        <div>
+          <label for="estatus">Estatus:</label>
+          <input type="text" id="estatus" name="estatus" value="Por hacer" readonly>
+        </div>
+        <button type="submit">Agregar Tarea</button>
+        <button type="button" id="limpiar_campos">Limpiar campos</button>
+      </form>
+    </div>
 
-  <div class="tabla-tareas">
-    <h2>Tareas Registradas</h2>
-    <table id="tablaTareas">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Título</th>
-          <th>Descripción</th>
-          <th>Fecha de Inicio</th>
-          <th>Cliente</th>
-          <th>ID Proyecto</th>
-          <th>Comentarios</th>
-          <th>Estatus</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="filtro">
+      <h2>Filtrar Tareas</h2>
+      <label for="filtroEstatus">Selecciona Estatus: </label>
+      <select id="filtroEstatus">
+        <option value="Todos">Todos</option>
+        <option value="Por hacer">Por hacer</option>
+        <option value="En progreso">En progreso</option>
+        <option value="Rechazado">Rechazado</option>
+        <option value="Cancelado">Cancelado</option>
+        <option value="Cerrado">Cerrado</option>
+        <option value="En pruebas de calidad">En pruebas de calidad</option>
+        <option value="En validación por el usuario">En validación por el usuario</option>
+        <option value="En proceso de liberación">En proceso de liberación</option>
+      </select>
+    </div>
 
-      </tbody>
-    </table>
+    <div class="tabla-tareas">
+      <h2>Tareas Registradas</h2>
+      <table id="tablaTareas">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Fecha de Inicio</th>
+            <th>Cliente</th>
+            <th>ID Proyecto</th>
+            <th>Comentarios</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Para tareas -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="consulta-tarea">
+      <h1>Consulta / Modifica Tarea</h1>
+      <h2>(Hacer doble click a la tarea en la tabla)</h2>
+      <form id="formConsulta">
+        <div>
+          <label for="consultaID">Código de la Tarea (ID):</label>
+          <input type="text" id="consultaID" name="consultaID" readonly>
+        </div>
+        <div>
+          <label for="consultaTitulo">Título:</label>
+          <input type="text" id="consultaTitulo" name="consultaTitulo" readonly>
+        </div>
+        <div>
+          <label for="consultaDescripcion">Descripción:</label>
+          <textarea id="consultaDescripcion" name="consultaDescripcion" readonly></textarea>
+        </div>
+        <div>
+          <label for="consultaFechaInicio">Fecha de Inicio:</label>
+          <input type="date" id="consultaFechaInicio" name="consultaFechaInicio" readonly>
+        </div>
+        <div>
+          <label for="consultaCliente">Cliente:</label>
+          <input type="text" id="consultaCliente" name="consultaCliente" readonly>
+        </div>
+        <div>
+          <label for="consultaIdProyecto">ID del Proyecto:</label>
+          <input type="text" id="consultaIdProyecto" name="consultaIdProyecto" readonly>
+        </div>
+        <div>
+          <label for="consultaComentarios">Comentarios:</label>
+          <textarea id="consultaComentarios" name="consultaComentarios" readonly></textarea>
+        </div>
+        <div>
+          <label for="consultaEstatus">Estatus:</label>
+          <select id="consultaEstatus" name="consultaEstatus">
+            <option value="En progreso">En progreso</option>
+            <option value="Rechazado">Rechazado</option>
+            <option value="Cancelado">Cancelado</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="En pruebas de calidad">En pruebas de calidad</option>
+            <option value="En validación por el usuario">En validación por el usuario</option>
+            <option value="En proceso de liberación">En proceso de liberación</option>
+          </select>
+        </div>
+        <div>
+          <label for="nuevoComentario">Nuevo Comentario:</label>
+          <textarea id="nuevoComentario" name="nuevoComentario"></textarea>
+        </div>
+        <button type="button" id="actualizar_tarea">Actualizar Tarea</button>
+      </form>
+    </div>
   </div>
 
   <script>
-    let usuario = "Admin";
-    let pass = "1234";
-    let prompt_User;
-    let prompt_Pass;
-    
-    do {
-      prompt_User = prompt("¿Cuál es el usuario?");
-      prompt_Pass = prompt("¿Cuál es la contraseña?");
-    } while (prompt_User !== usuario || prompt_Pass !== pass);
-    document.getElementById("usuario").textContent = usuario;
-    function limpiarCampos(callback) {
-      document.getElementById("tareaID").value = "";
-      document.getElementById("titulo").value = "";
-      document.getElementById("descripcion").value = "";
-      document.getElementById("fechaInicio").value = "";
-      document.getElementById("cliente").value = "";
-      document.getElementById("idProyecto").value = "";
-      document.getElementById("comentarios").value = "";
+    try {
+      // Proceso de login con prompt
+      let usuario = "Admin";
+      let pass = "1234";
 
-      if (callback && typeof callback === "function") {
-        callback();
+
+      document.getElementById("usuario").textContent = usuario;
+
+      function limpiarCampos(callback) {
+        document.getElementById("tareaID").value = "";
+        document.getElementById("titulo").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("fechaInicio").value = "";
+        document.getElementById("cliente").value = "";
+        document.getElementById("idProyecto").value = "";
+        document.getElementById("comentarios").value = "";
+        if (callback && typeof callback === "function") {
+          callback();
+        }
       }
+
+      document.getElementById("limpiar_campos").addEventListener("click", function(event) {
+        limpiarCampos(function() {
+          console.log("Los campos se han limpiado correctamente.");
+        });
+      });
+
+      document.getElementById("formTarea").addEventListener("submit", function(event) {
+        event.preventDefault();
+        let tareaID = document.getElementById("tareaID").value.trim();
+        let titulo = document.getElementById("titulo").value.trim();
+        let descripcion = document.getElementById("descripcion").value.trim();
+        let fechaInicio = document.getElementById("fechaInicio").value;
+        let cliente = document.getElementById("cliente").value.trim();
+        let idProyecto = document.getElementById("idProyecto").value.trim();
+        let comentarios = document.getElementById("comentarios").value.trim();
+        let estatus = document.getElementById("estatus").value;
+
+        if (!tareaID || !titulo || !descripcion || !fechaInicio || !cliente || !idProyecto) {
+          alert("Por favor, complete todos los campos obligatorios.");
+          return;
+        }
+
+        let tarea = {
+          ID: tareaID,
+          Titulo: titulo,
+          Descripcion: descripcion,
+          FechaInicio: fechaInicio,
+          Cliente: cliente,
+          ID_Proyecto: idProyecto,
+          Comentarios: comentarios,
+          Estatus: estatus
+        };
+
+        agregarTareaATabla(tarea);
+        limpiarCampos(function() {
+          console.log("Los campos se han limpiado correctamente.");
+        });
+      });
+
+      function agregarTareaATabla(tarea) {
+        let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
+        let row = tablaBody.insertRow();
+        row.insertCell().textContent = tarea.ID;
+        row.insertCell().textContent = tarea.Titulo;
+        row.insertCell().textContent = tarea.Descripcion;
+        row.insertCell().textContent = tarea.FechaInicio;
+        row.insertCell().textContent = tarea.Cliente;
+        row.insertCell().textContent = tarea.ID_Proyecto;
+        row.insertCell().textContent = tarea.Comentarios;
+        row.insertCell().textContent = tarea.Estatus;
+
+        row.addEventListener("dblclick", function() {
+          cargarTareaEnConsulta(tarea, row);
+        });
+      }
+
+      function cargarTareaEnConsulta(tarea, row) {
+        document.getElementById("consultaID").value = tarea.ID;
+        document.getElementById("consultaTitulo").value = tarea.Titulo;
+        document.getElementById("consultaDescripcion").value = tarea.Descripcion;
+        document.getElementById("consultaFechaInicio").value = tarea.FechaInicio;
+        document.getElementById("consultaCliente").value = tarea.Cliente;
+        document.getElementById("consultaIdProyecto").value = tarea.ID_Proyecto;
+        document.getElementById("consultaComentarios").value = tarea.Comentarios;
+        document.getElementById("consultaEstatus").value = tarea.Estatus;
+        document.getElementById("nuevoComentario").value = "";
+
+        document.getElementById("formConsulta").setAttribute("data-row-index", row.rowIndex);
+      }
+
+      document.getElementById("actualizar_tarea").addEventListener("click", function() {
+        try {
+          let rowIndex = document.getElementById("formConsulta").getAttribute("data-row-index");
+          if (rowIndex === null) {
+            alert("No se ha seleccionado ninguna tarea para modificar.");
+            return;
+          }
+          let tabla = document.getElementById("tablaTareas");
+          let row = tabla.rows[rowIndex];
+          if (!row) {
+            alert("La tarea seleccionada no se encontró en la tabla.");
+            return;
+          }
+
+          let nuevoEstatus = document.getElementById("consultaEstatus").value;
+          let nuevoComentario = document.getElementById("nuevoComentario").value.trim();
+          let comentariosExistentes = document.getElementById("consultaComentarios").value;
+
+          if (nuevoComentario !== "") {
+            let fechaActual = new Date().toLocaleString();
+            comentariosExistentes += "\n[" + fechaActual + "] " + nuevoComentario;
+          }
+
+          row.cells[7].textContent = nuevoEstatus;
+          row.cells[6].textContent = comentariosExistentes;
+
+          document.getElementById("consultaComentarios").value = comentariosExistentes;
+          document.getElementById("consultaEstatus").value = nuevoEstatus;
+
+          alert("La tarea se actualizó correctamente.");
+        } catch (error) {
+          console.error("Error al actualizar la tarea:", error);
+          alert("Se produjo un error al actualizar la tarea.");
+        }
+      });
+
+      document.getElementById("filtroEstatus").addEventListener("change", function() {
+        try {
+          let filtro = this.value;
+          let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
+          let filas = tablaBody.rows;
+          for (let i = 0; i < filas.length; i++) {
+            let estatus = filas[i].cells[7].textContent;
+            if (filtro === "Todos" || estatus === filtro) {
+              filas[i].style.display = "";
+            } else {
+              filas[i].style.display = "none";
+            }
+          }
+        } catch (error) {
+          console.error("Error al filtrar las tareas:", error);
+        }
+      });
+
+    } catch (error) {
+      console.error("Error en el script principal:", error);
     }
-    document.getElementById("limpiar_campos").addEventListener("click", function(event) {
-      limpiarCampos(function() {
-        console.log("Los campos se han limpiado correctamente.");
-      });
-    });
-    
-    document.getElementById("formTarea").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      let tareaID = document.getElementById("tareaID").value.trim();
-      let titulo = document.getElementById("titulo").value.trim();
-      let descripcion = document.getElementById("descripcion").value.trim();
-      let fechaInicio = document.getElementById("fechaInicio").value;
-      let cliente = document.getElementById("cliente").value.trim();
-      let idProyecto = document.getElementById("idProyecto").value.trim();
-      let comentarios = document.getElementById("comentarios").value.trim();
-      let estatus = document.getElementById("estatus").value;
-
-      if (!tareaID || !titulo || !descripcion || !fechaInicio || !cliente || !idProyecto) {
-        alert("Por favor, complete todos los campos obligatorios.");
-        return;
-      }
-
-      let tarea = {
-        ID: tareaID,
-        Titulo: titulo,
-        Descripcion: descripcion,
-        FechaInicio: fechaInicio,
-        Cliente: cliente,
-        ID_Proyecto: idProyecto,
-        Comentarios: comentarios,
-        Estatus: estatus
-      };
-
-      let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
-      let row = tablaBody.insertRow();
-      row.insertCell().textContent = tarea.ID;
-      row.insertCell().textContent = tarea.Titulo;
-      row.insertCell().textContent = tarea.Descripcion;
-      row.insertCell().textContent = tarea.FechaInicio;
-      row.insertCell().textContent = tarea.Cliente;
-      row.insertCell().textContent = tarea.ID_Proyecto;
-      row.insertCell().textContent = tarea.Comentarios;
-      row.insertCell().textContent = tarea.Estatus;
-
-      limpiarCampos(function() {
-        console.log("Los campos se han limpiado correctamente.");
-      });
-    });
   </script>
 </body>
 </html>
