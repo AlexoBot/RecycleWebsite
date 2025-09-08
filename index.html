@@ -1,296 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro de Tareas</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Reciclaje</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="usuario-registrado">
-      <label>Usuario Registrado: </label>
-      <span id="usuario">Admin</span>
-    </div>
+  <header>
+    <h1>Reciclaje en Casa</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#tipos">Tipos de Residuos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
 
-    <div class="registro-tarea">
-      <h2>Registrar Nueva Tarea</h2>
-      <form id="formTarea">
-        <div>
-          <label for="tareaID">Código de la Tarea (ID):</label>
-          <input type="text" id="tareaID" name="tareaID" required>
+  <main id="inicio">
+    <section class="hero">
+      <img src="Reciclaje_logo.jpg" alt="reciclaje" width="200" height="120">
+      <h2>¡Reciclar es fácil y necesario!</h2>
+      <p>Aprende cómo separar la basura y ayuda al planeta.</p>
+      <button id="infoBtn">Ver más</button>
+    </section>
+
+    <section id="tipos">
+      <h2>Tipos de Residuos</h2>
+      <div class="accordion">
+        <button class="acc-btn">Orgánicos</button>
+        <div class="acc-content">
+            <img src="orgainco.jpg" alt="organicos" width="200" height="120">
+            <p>Restos de comida, cáscaras y hojas. Se pueden compostar.</p>
         </div>
-        <div>
-          <label for="titulo">Título de la Tarea:</label>
-          <input type="text" id="titulo" name="titulo" required>
+
+        <button class="acc-btn">Reciclables</button>
+        <div class="acc-content">
+            <img src="reciclables.jpeg" alt="vidrios" width="200" height="120">
+            <p>Plásticos, vidrio, papel, cartón y metales limpios.</p>
         </div>
-        <div>
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" name="descripcion" required></textarea>
+
+        <button class="acc-btn">No reciclables</button>
+        <div class="acc-content">
+            <img src="inorganico.png" alt="inorganicos" width="200" height="120">
+            <p>Pañales, servilletas sucias, colillas de cigarro.</p>
         </div>
-        <div>
-          <label for="fechaInicio">Fecha de Inicio:</label>
-          <input type="date" id="fechaInicio" name="fechaInicio" required>
-        </div>
-        <div>
-          <label for="cliente">Nombre del Cliente:</label>
-          <input type="text" id="cliente" name="cliente" required>
-        </div>
-        <div>
-          <label for="idProyecto">ID del Proyecto:</label>
-          <input type="text" id="idProyecto" name="idProyecto" required>
-        </div>
-        <div>
-          <label for="comentarios">Comentarios:</label>
-          <textarea id="comentarios" name="comentarios"></textarea>
-        </div>
-        <div>
-          <label for="estatus">Estatus:</label>
-          <input type="text" id="estatus" name="estatus" value="Por hacer" readonly>
-        </div>
-        <button type="submit">Agregar Tarea</button>
-        <button type="button" id="limpiar_campos">Limpiar campos</button>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <form id="contactForm">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" required>
+
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="3" required></textarea>
+
+        <button type="submit">Enviar</button>
       </form>
-    </div>
+      <p id="formResult"></p>
+    </section>
+  </main>
 
-    <div class="filtro">
-      <h2>Filtrar Tareas</h2>
-      <label for="filtroEstatus">Selecciona Estatus: </label>
-      <select id="filtroEstatus">
-        <option value="Todos">Todos</option>
-        <option value="Por hacer">Por hacer</option>
-        <option value="En progreso">En progreso</option>
-        <option value="Rechazado">Rechazado</option>
-        <option value="Cancelado">Cancelado</option>
-        <option value="Cerrado">Cerrado</option>
-        <option value="En pruebas de calidad">En pruebas de calidad</option>
-        <option value="En validación por el usuario">En validación por el usuario</option>
-        <option value="En proceso de liberación">En proceso de liberación</option>
-      </select>
-    </div>
+  <footer>
+    <p> 2025 reciclemos más</p>
+  </footer>
 
-    <div class="tabla-tareas">
-      <h2>Tareas Registradas</h2>
-      <table id="tablaTareas">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Descripción</th>
-            <th>Fecha de Inicio</th>
-            <th>Cliente</th>
-            <th>ID Proyecto</th>
-            <th>Comentarios</th>
-            <th>Estatus</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Para tareas -->
-        </tbody>
-      </table>
-    </div>
-
-    <div class="consulta-tarea">
-      <h1>Consulta / Modifica Tarea</h1>
-      <h2>(Hacer doble click a la tarea en la tabla)</h2>
-      <form id="formConsulta">
-        <div>
-          <label for="consultaID">Código de la Tarea (ID):</label>
-          <input type="text" id="consultaID" name="consultaID" readonly>
-        </div>
-        <div>
-          <label for="consultaTitulo">Título:</label>
-          <input type="text" id="consultaTitulo" name="consultaTitulo" readonly>
-        </div>
-        <div>
-          <label for="consultaDescripcion">Descripción:</label>
-          <textarea id="consultaDescripcion" name="consultaDescripcion" readonly></textarea>
-        </div>
-        <div>
-          <label for="consultaFechaInicio">Fecha de Inicio:</label>
-          <input type="date" id="consultaFechaInicio" name="consultaFechaInicio" readonly>
-        </div>
-        <div>
-          <label for="consultaCliente">Cliente:</label>
-          <input type="text" id="consultaCliente" name="consultaCliente" readonly>
-        </div>
-        <div>
-          <label for="consultaIdProyecto">ID del Proyecto:</label>
-          <input type="text" id="consultaIdProyecto" name="consultaIdProyecto" readonly>
-        </div>
-        <div>
-          <label for="consultaComentarios">Comentarios:</label>
-          <textarea id="consultaComentarios" name="consultaComentarios" readonly></textarea>
-        </div>
-        <div>
-          <label for="consultaEstatus">Estatus:</label>
-          <select id="consultaEstatus" name="consultaEstatus">
-            <option value="En progreso">En progreso</option>
-            <option value="Rechazado">Rechazado</option>
-            <option value="Cancelado">Cancelado</option>
-            <option value="Cerrado">Cerrado</option>
-            <option value="En pruebas de calidad">En pruebas de calidad</option>
-            <option value="En validación por el usuario">En validación por el usuario</option>
-            <option value="En proceso de liberación">En proceso de liberación</option>
-          </select>
-        </div>
-        <div>
-          <label for="nuevoComentario">Nuevo Comentario:</label>
-          <textarea id="nuevoComentario" name="nuevoComentario"></textarea>
-        </div>
-        <button type="button" id="actualizar_tarea">Actualizar Tarea</button>
-      </form>
-    </div>
-  </div>
-
+ 
   <script>
-    try {
-      // Proceso de login con prompt
-      let usuario = "Admin";
-      let pass = "1234";
+    // Botón "Ver más"
+    document.getElementById("infoBtn").addEventListener("click", () => {
+      alert("Reciclar ayuda a reducir la contaminación y aprovechar recursos.");
+    });
 
-
-      document.getElementById("usuario").textContent = usuario;
-
-      function limpiarCampos(callback) {
-        document.getElementById("tareaID").value = "";
-        document.getElementById("titulo").value = "";
-        document.getElementById("descripcion").value = "";
-        document.getElementById("fechaInicio").value = "";
-        document.getElementById("cliente").value = "";
-        document.getElementById("idProyecto").value = "";
-        document.getElementById("comentarios").value = "";
-        if (callback && typeof callback === "function") {
-          callback();
-        }
-      }
-
-      document.getElementById("limpiar_campos").addEventListener("click", function(event) {
-        limpiarCampos(function() {
-          console.log("Los campos se han limpiado correctamente.");
-        });
+    // Acordeón
+    document.querySelectorAll(".acc-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
       });
+    });
 
-      document.getElementById("formTarea").addEventListener("submit", function(event) {
-        event.preventDefault();
-        let tareaID = document.getElementById("tareaID").value.trim();
-        let titulo = document.getElementById("titulo").value.trim();
-        let descripcion = document.getElementById("descripcion").value.trim();
-        let fechaInicio = document.getElementById("fechaInicio").value;
-        let cliente = document.getElementById("cliente").value.trim();
-        let idProyecto = document.getElementById("idProyecto").value.trim();
-        let comentarios = document.getElementById("comentarios").value.trim();
-        let estatus = document.getElementById("estatus").value;
-
-        if (!tareaID || !titulo || !descripcion || !fechaInicio || !cliente || !idProyecto) {
-          alert("Por favor, complete todos los campos obligatorios.");
-          return;
-        }
-
-        let tarea = {
-          ID: tareaID,
-          Titulo: titulo,
-          Descripcion: descripcion,
-          FechaInicio: fechaInicio,
-          Cliente: cliente,
-          ID_Proyecto: idProyecto,
-          Comentarios: comentarios,
-          Estatus: estatus
-        };
-
-        agregarTareaATabla(tarea);
-        limpiarCampos(function() {
-          console.log("Los campos se han limpiado correctamente.");
-        });
-      });
-
-      function agregarTareaATabla(tarea) {
-        let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
-        let row = tablaBody.insertRow();
-        row.insertCell().textContent = tarea.ID;
-        row.insertCell().textContent = tarea.Titulo;
-        row.insertCell().textContent = tarea.Descripcion;
-        row.insertCell().textContent = tarea.FechaInicio;
-        row.insertCell().textContent = tarea.Cliente;
-        row.insertCell().textContent = tarea.ID_Proyecto;
-        row.insertCell().textContent = tarea.Comentarios;
-        row.insertCell().textContent = tarea.Estatus;
-
-        row.addEventListener("dblclick", function() {
-          cargarTareaEnConsulta(tarea, row);
-        });
-      }
-
-      function cargarTareaEnConsulta(tarea, row) {
-        document.getElementById("consultaID").value = tarea.ID;
-        document.getElementById("consultaTitulo").value = tarea.Titulo;
-        document.getElementById("consultaDescripcion").value = tarea.Descripcion;
-        document.getElementById("consultaFechaInicio").value = tarea.FechaInicio;
-        document.getElementById("consultaCliente").value = tarea.Cliente;
-        document.getElementById("consultaIdProyecto").value = tarea.ID_Proyecto;
-        document.getElementById("consultaComentarios").value = tarea.Comentarios;
-        document.getElementById("consultaEstatus").value = tarea.Estatus;
-        document.getElementById("nuevoComentario").value = "";
-
-        document.getElementById("formConsulta").setAttribute("data-row-index", row.rowIndex);
-      }
-
-      document.getElementById("actualizar_tarea").addEventListener("click", function() {
-        try {
-          let rowIndex = document.getElementById("formConsulta").getAttribute("data-row-index");
-          if (rowIndex === null) {
-            alert("No se ha seleccionado ninguna tarea para modificar.");
-            return;
-          }
-          let tabla = document.getElementById("tablaTareas");
-          let row = tabla.rows[rowIndex];
-          if (!row) {
-            alert("La tarea seleccionada no se encontró en la tabla.");
-            return;
-          }
-
-          let nuevoEstatus = document.getElementById("consultaEstatus").value;
-          let nuevoComentario = document.getElementById("nuevoComentario").value.trim();
-          let comentariosExistentes = document.getElementById("consultaComentarios").value;
-
-          if (nuevoComentario !== "") {
-            let fechaActual = new Date().toLocaleString();
-            comentariosExistentes += "\n[" + fechaActual + "] " + nuevoComentario;
-          }
-
-          row.cells[7].textContent = nuevoEstatus;
-          row.cells[6].textContent = comentariosExistentes;
-
-          document.getElementById("consultaComentarios").value = comentariosExistentes;
-          document.getElementById("consultaEstatus").value = nuevoEstatus;
-
-          alert("La tarea se actualizó correctamente.");
-        } catch (error) {
-          console.error("Error al actualizar la tarea:", error);
-          alert("Se produjo un error al actualizar la tarea.");
-        }
-      });
-
-      document.getElementById("filtroEstatus").addEventListener("change", function() {
-        try {
-          let filtro = this.value;
-          let tablaBody = document.getElementById("tablaTareas").querySelector("tbody");
-          let filas = tablaBody.rows;
-          for (let i = 0; i < filas.length; i++) {
-            let estatus = filas[i].cells[7].textContent;
-            if (filtro === "Todos" || estatus === filtro) {
-              filas[i].style.display = "";
-            } else {
-              filas[i].style.display = "none";
-            }
-          }
-        } catch (error) {
-          console.error("Error al filtrar las tareas:", error);
-        }
-      });
-
-    } catch (error) {
-      console.error("Error en el script principal:", error);
-    }
+    // Formulario
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const mensaje = document.getElementById("mensaje").value;
+      document.getElementById("formResult").textContent =
+        `Gracias ${nombre}, recibimos tu mensaje: "${mensaje}"`;
+      e.target.reset();
+    });
   </script>
 </body>
 </html>
