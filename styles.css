@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f3f7f0;
+  color: #333;
+}
+
+header {
+  background: #2c6e49;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+header nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+.hero {
+  padding: 2rem;
+  text-align: center;
+  background: #eaf4ea;
+}
+
+button {
+  background: #2c6e49;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #3c915e;
+}
+
+section {
+  padding: 2rem;
+}
+
+.accordion .acc-content {
+  display: none;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+}
+
+input, textarea {
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #2c6e49;
+  color: white;
+  margin-top: 2rem;
+}
+
+/* ===== React widget ===== */
+#react { background: #f7faf7; border-top: 1px solid #e0e8e0; }
+.react-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #dfe7df;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.react-controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 220px;
+  margin-bottom: 12px;
+}
+.react-controls input,
+.react-controls select {
+  padding: 8px;
+  border: 1px solid #bfc9bf;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.react-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.react-item {
+  border: 1px solid #e2e8e2;
+  background: #fbfdfb;
+  border-radius: 6px;
+  padding: 10px;
+}
+.react-item .badge {
+  display: inline-block;
+  font-size: 12px;
+  background: #e8f4ec;
+  color: #2c6e49;
+  border: 1px solid #cfe5d7;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-left: 6px;
+}
+.react-sub { color: #4b5a4b; margin-top: 4px; font-size: 14px; }
+.react-empty { color: #6b786b; font-style: italic; text-align: center; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .react-controls { grid-template-columns: 1fr; }
+}

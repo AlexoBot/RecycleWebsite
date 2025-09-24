@@ -94,3 +94,174 @@
 </body>
 </html>
 
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página de Reciclaje + React</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header>
+    <h1>Reciclaje en Casa</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#tipos">Tipos de Residuos</a>
+      <a href="#react">Sección React</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <!-- Aquí puedes poner una imagen grande -->
+      <h2>¡Reciclar es fácil y necesario!</h2>
+      <p>Aprende cómo separar la basura y ayuda al planeta.</p>
+      <button id="infoBtn">Ver más</button>
+    </section>
+
+    <section id="tipos">
+      <h2>Tipos de Residuos</h2>
+      <div class="accordion">
+        <button class="acc-btn">Orgánicos</button>
+        <div class="acc-content">
+          <img src="/Photos/orgainco.jpg" alt="organicos" width="200" height="120">
+          <p>Restos de comida, cáscaras y hojas. Se pueden compostar.</p>
+        </div>
+
+        <button class="acc-btn">Reciclables</button>
+        <div class="acc-content">
+          <p>Plásticos, vidrio, papel, cartón y metales limpios.</p>
+        </div>
+
+        <button class="acc-btn">No reciclables</button>
+        <div class="acc-content">
+          <p>Pañales, servilletas sucias, colillas de cigarro.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Sección React (mini widget) ===== -->
+    <section id="react">
+      <h2>Buscador de Materiales (React)</h2>
+      <div id="react-root" aria-live="polite"></div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <form id="contactForm">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" required>
+
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="3" required></textarea>
+
+        <button type="submit">Enviar</button>
+      </form>
+      <p id="formResult"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Página de Reciclaje</p>
+  </footer>
+
+  <!-- JS directo en el HTML -->
+  <script>
+    // Botón "Ver más"
+    document.getElementById("infoBtn").addEventListener("click", () => {
+      alert("Reciclar ayuda a reducir la contaminación y aprovechar recursos.");
+    });
+
+    // Acordeón
+    document.querySelectorAll(".acc-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const content = btn.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    // Formulario
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value;
+      const mensaje = document.getElementById("mensaje").value;
+      document.getElementById("formResult").textContent =
+        `Gracias ${nombre}, recibimos tu mensaje: "${mensaje}"`;
+      e.target.reset();
+    });
+  </script>
+
+  <!-- React UMD desde CDN (sin build tools) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+  <!-- Mini widget React inline -->
+  <script>
+    (function () {
+      const { createElement: h, useState, useMemo } = React;
+
+      // Datos de ejemplo (puedes extenderlos o cambiarlos)
+      const materiales = [
+        { nombre: "Botellas PET", tipo: "Plástico", instrucciones: "Enjuagar y aplastar." },
+        { nombre: "Latas de aluminio", tipo: "Metal", instrucciones: "Enjuagar, aplastar si es posible." },
+        { nombre: "Cartón", tipo: "Papel/Cartón", instrucciones: "Mantener seco y limpio." },
+        { nombre: "Vidrio", tipo: "Vidrio", instrucciones: "Separar por color si aplica, no romper." },
+        { nombre: "Tetrapak", tipo: "Compuesto", instrucciones: "Enjuagar, doblar para ahorrar espacio." },
+      ];
+
+      function Item({ m }) {
+        return h("li", { className: "react-item" },
+          h("strong", null, m.nombre, " "),
+          h("span", { className: "badge" }, m.tipo),
+          h("div", { className: "react-sub" }, m.instrucciones)
+        );
+      }
+
+      function Buscador() {
+        const [q, setQ] = useState("");
+        const [filtro, setFiltro] = useState("Todos");
+
+        const tipos = useMemo(() => ["Todos", ...Array.from(new Set(materiales.map(m => m.tipo)))], []);
+        const resultado = useMemo(() => {
+          return materiales.filter(m => {
+            const coincideTexto = (m.nombre + " " + m.tipo + " " + m.instrucciones)
+              .toLowerCase().includes(q.toLowerCase());
+            const coincideTipo = (filtro === "Todos" || m.tipo === filtro);
+            return coincideTexto && coincideTipo;
+          });
+        }, [q, filtro]);
+
+        return h("div", { className: "react-card" },
+          h("div", { className: "react-controls" },
+            h("input", {
+              placeholder: "Buscar material (ej. PET, vidrio...)",
+              value: q,
+              onChange: (e) => setQ(e.target.value),
+              "aria-label": "Buscar material"
+            }),
+            h("select", {
+              value: filtro, onChange: (e) => setFiltro(e.target.value),
+              "aria-label": "Filtrar por tipo"
+            }, tipos.map(t => h("option", { key: t, value: t }, t)))
+          ),
+          h("ul", { className: "react-list" },
+            resultado.length
+              ? resultado.map((m, i) => h(Item, { key: i, m }))
+              : h("li", { className: "react-empty" }, "Sin resultados")
+          )
+        );
+      }
+
+      const root = document.getElementById("react-root");
+      if (root) {
+        const r = ReactDOM.createRoot(root);
+        r.render(h(Buscador));
+      }
+    })();
+  </script>
+</body>
+</html>
+>>>>>>> 6adef4d (Added_Structure_and_React)
