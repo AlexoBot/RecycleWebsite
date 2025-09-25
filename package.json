@@ -1,0 +1,16 @@
+{
+  "name": "RecycleWebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && python -m http.server 3000",
+    "test": "cd backend && npm test",
+    "seed": "cd backend && node src/seeders/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
