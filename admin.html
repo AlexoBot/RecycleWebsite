@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administración | Reciclaje en Casa</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/admin.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Panel de Administración</h1>
+      <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <span id="adminUser" class="admin-user"></span>
+        <button id="logoutBtn" class="login-btn">Cerrar sesión</button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="admin-section">
+      <h2>Gestión de Tipos de Residuos</h2>
+      <div id="wasteTypesList">
+        <!-- Aquí se listarán los tipos de residuos -->
+      </div>
+      <form id="addWasteTypeForm" class="admin-form">
+        <h3>Agregar Nuevo Tipo</h3>
+        <div class="form-group">
+          <label for="wasteName">Nombre</label>
+          <input type="text" id="wasteName" required>
+        </div>
+        <div class="form-group">
+          <label for="wasteDesc">Descripción</label>
+          <input type="text" id="wasteDesc" required>
+        </div>
+        <div class="form-group">
+          <label for="wasteImg">URL Imagen</label>
+          <input type="text" id="wasteImg" placeholder="Photos/ejemplo.jpg">
+        </div>
+        <div class="form-group">
+          <label for="wasteInstr">Instrucciones</label>
+          <input type="text" id="wasteInstr">
+        </div>
+        <button type="submit">Agregar Tipo</button>
+      </form>
+    </section>
+    <section class="admin-section">
+      <h2>Gestión de Comentarios</h2>
+      <div id="commentsList">
+        <!-- Aquí se listarán los comentarios -->
+      </div>
+    </section>
+  </main>
+  <script>
+    // Proteger acceso: solo autenticados
+    if (!window.rwAuth.isAuthenticated()) {
+      window.rwAuth.redirectToLogin();
+    } else {
+      const user = window.rwAuth.getCurrentUser();
+      document.getElementById('adminUser').textContent = user ? `Usuario: ${user.username}` : '';
+    }
+    document.getElementById('logoutBtn').onclick = function() {
+      window.rwAuth.logout();
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>

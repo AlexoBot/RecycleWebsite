@@ -7,14 +7,18 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <div id="toast" class="toast"></div>
   <header>
-    <h1>Reciclaje en Casa</h1>
-    <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#tipos">Tipos de Residuos</a>
-      <a href="#react">Sección React</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+    <div class="header-content">
+      <h1>Reciclaje en Casa</h1>
+      <nav class="main-nav">
+        <a href="#inicio">Inicio</a>
+        <a href="#tipos">Tipos de Residuos</a>
+        <a href="#react">Buscador de Materiales</a>
+        <a href="#contacto">Contacto</a>
+        <button id="loginBtn" class="login-btn" onclick="window.location.href='login.html'">Administrar</button>
+      </nav>
+    </div>
   </header>
 
   <main id="inicio">
@@ -27,58 +31,221 @@
 
     <section id="tipos">
       <h2>Tipos de Residuos</h2>
-      <div class="accordion">
-        <button class="acc-btn">Orgánicos</button>
-        <div class="acc-content">
-          <img src="/Photos/orgainco.jpg" alt="organicos" width="200" height="120">
-          <p>Restos de comida, cáscaras y hojas. Se pueden compostar.</p>
-        </div>
-
-        <button class="acc-btn">Reciclables</button>
-        <div class="acc-content">
-          <img src="Photos/reciclables.jpeg" alt="reciclaje" width="200" height="120">
-          <p>Plásticos, vidrio, papel, cartón y metales limpios.</p>
-        </div>
-
-        <button class="acc-btn">No reciclables</button>
-        <div class="acc-content">
-          <img src="Photos/inorganico.png" alt="no reciclables" width="200" height="120">
-          <p>Pañales, servilletas sucias, colillas de cigarro.</p>
-        </div>
+      <div class="accordion" id="tiposAccordion">
+        <!-- Tipos de residuos se cargarán dinámicamente aquí -->
       </div>
     </section>
 
     <!-- ===== Sección React (mini widget) ===== -->
     <section id="react">
-      <h2>Buscador de Materiales (React)</h2>
+      <h2>Buscador de Materiales</h2>
       <div id="react-root" aria-live="polite"></div>
     </section>
 
     <section id="contacto">
       <h2>Contacto</h2>
       <form id="contactForm">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" required>
+  <label for="nombre">Nombre</label>
+  <input type="text" id="nombre" required maxlength="40">
 
-        <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" rows="3" required></textarea>
+  <label for="mensaje">Mensaje</label>
+  <textarea id="mensaje" rows="3" required maxlength="300"></textarea>
 
-        <button type="submit">Enviar</button>
+  <button type="submit">Enviar</button>
       </form>
       <p id="formResult"></p>
-    </section>
+  </section>
   </main>
 
   <footer>
     <p>© 2025 Página de Reciclaje</p>
   </footer>
 
-  <!-- JS directo en el HTML -->
+ 
   <script>
+    // Toast/Notificación simple
+    function showToast(msg, color = '#2ecc40') {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.background = color;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-40px)';
+      }, 2200);
+    }
+    // Cargar tipos de residuos dinámicamente
+    function renderTiposAccordion() {
+      const cont = document.getElementById('tiposAccordion');
+      let tipos = [];
+      try {
+        tipos = JSON.parse(localStorage.getItem('rw_waste_types') || '[]');
+      } catch {}
+      if (!tipos.length) {
+        // Datos estáticos por defecto
+        tipos = [
+          { nombre: 'Orgánicos', descripcion: 'Restos de comida, cáscaras y hojas. Se pueden compostar.', imagen: 'Photos/orgainco.jpg', instrucciones: '' },
+          { nombre: 'Reciclables', descripcion: 'Plásticos, vidrio, papel, cartón y metales limpios.', imagen: 'Photos/reciclables.jpeg', instrucciones: '' },
+          { nombre: 'No reciclables', descripcion: 'Pañales, servilletas sucias, colillas de cigarro.', imagen: 'Photos/inorganico.png', instrucciones: '' }
+        ];
+      }
+      cont.innerHTML = tipos.map(t => `
+        <button class="acc-btn">${t.nombre}</button>
+        <div class="acc-content">
+          <img src="${t.imagen || ''}" alt="${t.nombre}" width="200" height="120">
+          <p>${t.descripcion}</p>
+          ${t.instrucciones ? `<div class='tipo-instr'><em>${t.instrucciones}</em></div>` : ''}
+        </div>
+      `).join('');
+      // Acordeón funcionalidad
+      const btns = cont.querySelectorAll('.acc-btn');
+      btns.forEach((btn, i) => {
+        btn.onclick = function() {
+          const all = cont.querySelectorAll('.acc-content');
+          all.forEach((el, idx) => {
+            if (idx === i) {
+              el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            } else {
+              el.style.display = 'none';
+            }
+          });
+        };
+      });
+    }
+    renderTiposAccordion();
     // Botón "Ver más"
     document.getElementById("infoBtn").addEventListener("click", () => {
-      alert("Reciclar ayuda a reducir la contaminación y aprovechar recursos.");
+      showCustomMessage("Recuerda que", "Reciclar ayuda a reducir la contaminación y aprovechar recursos.");
     });
+
+    // Guardar comentarios en LocalStorage con timestamp y validación
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const mensaje = document.getElementById('mensaje').value.trim();
+      const result = document.getElementById('formResult');
+      if (!nombre || !mensaje) {
+        result.textContent = 'Por favor, completa todos los campos.';
+        result.style.color = '#c0392b';
+        return;
+      }
+      if (nombre.length > 40 || mensaje.length > 300) {
+        result.textContent = 'El nombre o mensaje es demasiado largo.';
+        result.style.color = '#c0392b';
+        return;
+      }
+      // Guardar comentario
+      let comentarios = [];
+      try {
+        comentarios = JSON.parse(localStorage.getItem('rw_comments') || '[]');
+      } catch {}
+      const nuevo = {
+        id: comentarios.length ? Math.max(...comentarios.map(c => c.id)) + 1 : 1,
+        nombre,
+        mensaje,
+        fecha: new Date().toISOString(),
+        estado: 'nuevo',
+        ip: '127.0.0.1' // Simulado
+      };
+      comentarios.push(nuevo);
+      localStorage.setItem('rw_comments', JSON.stringify(comentarios));
+  showToast('¡Comentario enviado!');
+  result.textContent = '';
+  this.reset();
+
+    });
+
+    // Función para mostrar mensaje personalizado
+    function showCustomMessage(title, message) {
+      // Crear elementos del modal
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+      `;
+
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        font-family: Arial, sans-serif;
+      `;
+
+      const titleElement = document.createElement('h3');
+      titleElement.textContent = title;
+      titleElement.style.cssText = `
+        margin: 0 0 15px 0;
+        color: #2c5530;
+        font-size: 1.2em;
+      `;
+
+      const messageElement = document.createElement('p');
+      messageElement.textContent = message;
+      messageElement.style.cssText = `
+        margin: 0 0 20px 0;
+        color: #333;
+        line-height: 1.4;
+      `;
+
+      const closeButton = document.createElement('button');
+      closeButton.textContent = 'Cerrar';
+      closeButton.style.cssText = `
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+      `;
+
+      // Agregar elementos al modal
+      modal.appendChild(titleElement);
+      modal.appendChild(messageElement);
+      modal.appendChild(closeButton);
+      overlay.appendChild(modal);
+
+      // Agregar al body
+      document.body.appendChild(overlay);
+
+      // Eventos para cerrar
+      closeButton.addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          document.body.removeChild(overlay);
+        }
+      });
+
+      // Cerrar con tecla Escape
+      const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+          if (document.body.contains(overlay)) {
+            document.body.removeChild(overlay);
+          }
+          document.removeEventListener('keydown', handleEscape);
+        }
+      };
+      document.addEventListener('keydown', handleEscape);
+    }
 
     // Acordeón
     document.querySelectorAll(".acc-btn").forEach((btn) => {
@@ -169,4 +336,3 @@
   </script>
 </body>
 </html>
->>>>>>> 6adef4d (Added_Structure_and_React)
