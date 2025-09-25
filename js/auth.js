@@ -1,48 +1,52 @@
 // js/auth.js - Sistema de autenticación demo para RecycleWebsite
 
-const DEMO_USERS = [
-  { username: 'admin', password: 'recicla2025', role: 'admin' },
-  { username: 'moderador', password: 'verde123', role: 'moderator' }
-];
 
-function login(username, password) {
-  const user = DEMO_USERS.find(u => u.username === username && u.password === password);
-  if (user) {
-    localStorage.setItem('rw_auth_user', JSON.stringify({ username: user.username, role: user.role }));
-    return true;
+
+
+
+
+
+
+
+// frontend/js/auth.js - VERSION ACTUALIZADA
+const rwAuth = {
+  async login(username, password) {
+    try {
+      const result = await window.recycleAPI.login(username, password);
+      return result.success;
+    } catch (error) {
+      console.error('Error de login:', error);
+      return false;
+    }
+  },
+
+  logout() {
+    window.recycleAPI.logout();
+  },
+
+  isAuthenticated() {
+    const token = localStorage.getItem('rw_auth_token');
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp > Date.now() / 1000;
+    } catch {
+      return false;
+    }
+  },
+
+  getCurrentUser() {
+    const user = localStorage.getItem('rw_user');
+    return user ? JSON.parse(user) : null;
+  },
+
+  redirectToLogin() {
+    window.location.href = 'login.html';
+  },
+
+  redirectToAdmin() {
+    window.location.href = 'admin.html';
   }
-  return false;
-}
-
-function logout() {
-  localStorage.removeItem('rw_auth_user');
-}
-
-function isAuthenticated() {
-  return !!localStorage.getItem('rw_auth_user');
-}
-
-function getCurrentUser() {
-  const data = localStorage.getItem('rw_auth_user');
-  return data ? JSON.parse(data) : null;
-}
-
-function redirectToLogin() {
-  window.location.href = 'login.html';
-}
-
-function redirectToAdmin() {
-  window.location.href = 'admin.html';
-}
-
-// Expose for inline scripts
-window.rwAuth = {
-  login,
-  logout,
-  isAuthenticated,
-  getCurrentUser,
-  redirectToLogin,
-  redirectToAdmin
 };
 
-// Auto-logout if session is invalid (optional, for admin.html)
+window.rwAuth = rwAuth;
