@@ -1,103 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Reciclaje</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <h1>Reciclaje en Casa</h1>
-    <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#tipos">Tipos de Residuos</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
-
-  <main id="inicio">
-    <section class="hero">
-      <img src="Reciclaje_logo.jpg" alt="reciclaje" width="200" height="120">
-      <h2>¡Reciclar es fácil y necesario!</h2>
-      <p>Aprende cómo separar la basura y ayuda al planeta.</p>
-      <button id="infoBtn">Ver más</button>
-    </section>
-
-    <section id="tipos">
-      <h2>Tipos de Residuos</h2>
-      <div class="accordion">
-        <button class="acc-btn">Orgánicos</button>
-        <div class="acc-content">
-            <img src="orgainco.jpg" alt="organicos" width="200" height="120">
-            <p>Restos de comida, cáscaras y hojas. Se pueden compostar.</p>
-        </div>
-
-        <button class="acc-btn">Reciclables</button>
-        <div class="acc-content">
-            <img src="reciclables.jpeg" alt="vidrios" width="200" height="120">
-            <p>Plásticos, vidrio, papel, cartón y metales limpios.</p>
-        </div>
-
-        <button class="acc-btn">No reciclables</button>
-        <div class="acc-content">
-            <img src="inorganico.png" alt="inorganicos" width="200" height="120">
-            <p>Pañales, servilletas sucias, colillas de cigarro.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <form id="contactForm">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" required>
-
-        <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" rows="3" required></textarea>
-
-        <button type="submit">Enviar</button>
-      </form>
-      <p id="formResult"></p>
-    </section>
-  </main>
-
-  <footer>
-    <p> 2025 reciclemos más</p>
-  </footer>
-
- 
-  <script>
-    // Botón "Ver más"
-    document.getElementById("infoBtn").addEventListener("click", () => {
-      alert("Reciclar ayuda a reducir la contaminación y aprovechar recursos.");
-    });
-
-    // Acordeón
-    document.querySelectorAll(".acc-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const content = btn.nextElementSibling;
-        content.style.display = content.style.display === "block" ? "none" : "block";
-      });
-    });
-
-    // Formulario
-    document.getElementById("contactForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const nombre = document.getElementById("nombre").value;
-      const mensaje = document.getElementById("mensaje").value;
-      document.getElementById("formResult").textContent =
-        `Gracias ${nombre}, recibimos tu mensaje: "${mensaje}"`;
-      e.target.reset();
-    });
-  </script>
-</body>
-</html>
-
-=======
-<!DOCTYPE html>
-<html lang="es">
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página de Reciclaje + React</title>
@@ -116,7 +19,7 @@
 
   <main id="inicio">
     <section class="hero">
-      <!-- Aquí puedes poner una imagen grande -->
+      <img src="Photos/Reciclaje_logo.jpg" alt="reciclaje" width="200" height="120">
       <h2>¡Reciclar es fácil y necesario!</h2>
       <p>Aprende cómo separar la basura y ayuda al planeta.</p>
       <button id="infoBtn">Ver más</button>
@@ -133,11 +36,13 @@
 
         <button class="acc-btn">Reciclables</button>
         <div class="acc-content">
+          <img src="Photos/reciclables.jpeg" alt="reciclaje" width="200" height="120">
           <p>Plásticos, vidrio, papel, cartón y metales limpios.</p>
         </div>
 
         <button class="acc-btn">No reciclables</button>
         <div class="acc-content">
+          <img src="Photos/inorganico.png" alt="no reciclables" width="200" height="120">
           <p>Pañales, servilletas sucias, colillas de cigarro.</p>
         </div>
       </div>
